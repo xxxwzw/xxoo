@@ -1,0 +1,97 @@
+如果git init初始化错了地方，可以在该初始化目录下使用rm -rf .git删除“.git”文件即可。
+如果git log后操作不了，输入“q”即可退出。
+
+Git的基本组成框架：
+Workspace:开发者工作区
+Index/Stage:暂存区/缓存区
+Repository:仓库区（或本地仓库）
+Remote:远程仓库
+
+
+
+常用Git的指令流程
+
+配置git的账号信息：
+git config --global user.name '名字'
+git config --global user.email 'email'
+git config --list    ————    查看git账户信息
+
+git初始化：
+git init 初始化
+git add 需添加到缓存区的文件 
+git commit -m '备注/注释'   ————将缓存区里的文件提交到本地仓库，并迭代一个版本
+git commit --amend  ————重写上一次的提交信息
+PS：按“i”插入信息，ctrl+o 保存修改，ctrl+x退出
+
+git log ————查看历史提交日志
+git log --pretty=oneline  ————简洁输出历史提交日至
+回滚仓库：
+git reset --hard 要回滚版本的哈希id
+git reset --hard HEAD^   ————会滚到上一次提交的版本
+git reset --hard HEAD~3  ————回滚三次
+
+查看当前仓库状态：
+git status
+
+git add --all  ————将当前目录下包括子目录下所有改动的文件提交到缓存区，只提交改动的文件！（包括删除操作也会记录进去，然后在本地仓库中执行删除操作）
+git add .     ————跟git add -all一样，只不过不记录删除操作
+
+git checkout -- 文件名     ————回退到缓存区里的版本，如果缓存区里没有，则回退到本地仓库的上一次版本
+
+git log 文件名     	   ————查看该文件可回退的版本
+git reset 可回退版本哈希id 回退的文件名  	————将指定文件回退到指定版本
+
+删除文件：
+可以直接rm 文件名，来删除文件，然后git add和git commit 重新提交一次。
+也可以使用git rm 文件名，来删除文件，这样只用git commit一次就行。
+
+查看提交历史：
+git reflog
+
+
+git rm 文件名，删除文件后，只是将删除操作放入缓存区，这时可以使用git reset重置缓存区操作，然后再使用git checkout 文件名，就可以将文件取消操作。
+
+ 
+创建分支：
+
+git checkout -b 分支名   	————创建一个分支，创建完成会自动切换过去
+git branch			————查看当前属于哪个分支（也就是HEAD
+的指向）
+git branch 分支名		————创建分支
+git checkout 分支名		————切换分支
+git checkout 文件名		————放弃对文件的缓存区操作
+
+合并分支：
+
+当在分支创建文件等等操作后，想将分支提交至master，只需git checkout master并执行git merge 分支名，即可将分支合并到master。
+
+git branch -a 			————查看所有分支
+git branch -D 分支名		————删除本地分支
+git push origin --delete 分支名	————删除远程分支
+
+
+Github的使用：
+1、在本地创建一个ssh的key，因为github是使用的ssh服务进行通讯的
+2、ssh-keygen -t rsa -C "邮箱"
+PS: -t 指定密钥类型，默认是rsa
+    -C 设置注释文字，比如邮箱
+    -f 指定密钥文件存储文件名，一般默认，让其存储到默认路径和默认文件名
+3、回车（使用默认文件名）、回车（设置push提交时的密码，回车则空密码）、回车（再次输入密码，回车则空密码）
+4、会生成2个密钥文件，一个是私密的，一个是公共密钥，只有公共密钥可以告诉别人。
+5、在github中添加公共密钥
+6、将本地仓库关联到远程仓库，git remote add origin github仓库里的ssh
+7、推送，git push -u origin master
+PS:
+	push  ————将本地仓库与远程仓库合并
+	-u    ————将master的分支也提交上去
+	origin ————远程仓库的意思，如果这个仓库是远程的那么必须使用这个选项
+	master ————提交本地master分支仓库
+
+Github常用：
+git push origin master
+git clone -b 要拉的分支名 git@github.com:TouchFishOfApoler/Notes.git
+
+git remote	————查看远程库的信息
+git remote -v	————查看远程库的详细信息
+
+
